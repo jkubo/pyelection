@@ -1,0 +1,9 @@
+# virtualenv
+.env
+
+# cache
+*.py[co]
+
+# dist
+dist/
+*.egg-info/
