@@ -33,29 +33,29 @@ from setuptools import setup, find_packages
 
 chdir(path.split(path.abspath(__file__))[0])
 
-with open('README.md', 'r') as fh:
-    long_description = fh.read()
+with open('README.md', 'r') as f:
+    long_description = f.read()
 
-setup(**{
-    'name': 'pyelection',
-    'provides': ['pyelection'],
-    'install_requires': [
+setup(
+    name='pyelection',
+    provides=['pyelection'],
+    install_requires=[
         'requests>=2.0',
         'beautifulsoup4>=4.0',
         'lxml>=4.2'
     ],
-    'packages': find_packages(),
-    'include_package_data': True,
-    'version': '0.0.1',
-    'description': 'Obtain historical US presidential election data',
-    'long_description': long_description,
-    'long_description_content_type': "text/markdown",
-    'author': 'Jay Kubo',
-    'author_email': 'jaykubo@outlook.com',
-    'url': 'https://github.com/jkubo/pyelection',
-    'classifiers': [
+    packages=find_packages(),
+    include_package_data=True,
+    version='0.0.2',
+    description='Obtain historical US presidential election data',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    author='Jay Kubo',
+    author_email='jaykubo@outlook.com',
+    url='https://github.com/jkubo/pyelection',
+    classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python'
      ]
-})
+)

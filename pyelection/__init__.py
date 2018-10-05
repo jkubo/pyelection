@@ -155,19 +155,16 @@ class PyElection(object):
             if row[0] == start:
                 rec = True
                 head = row
+                # hacky but needed for scraping inconsistent format
+                if head[1] != 'TOTAL VOTES':
+                    head.insert(1, 'TOTAL VOTES')
                 continue
             if row[0] == end:
                 break
             if rec:
                 scope.append(list(map(lambda c: reg.sub('', c), row)))
-            else:
-                party = list(filter(None, list(map(lambda x: tuple(x.splitlines()), row))))     
-        # hacky but needed for bad scraping inconsistent format
-        if head[1] != 'TOTAL VOTES':
-            head.insert(1, 'TOTAL VOTES')
-            party = party[1:]
         # relying on secondary method to obtain parties list as initial method is not always reliable
-        parties = self.get_candiate_summary()
+        parties = self.get_candidate_summary()
         ret = []
         init = False
         for s in scope:
@@ -177,20 +174,20 @@ class PyElection(object):
             if init:
                 col = list(zip(head, s))
                 d = dict(col[:2])
-                dim = int(len(col[2:]) / len(party))
+                dim = int(len(col[2:]) / len(parties))
                 d['STATS'] = list(map(dict, list(zip(*[iter(col[2:])]*dim))))
-                for i in range(len(party)):
-                    d['STATS'][i]['Candidate'] = party[i][0]
+                for i in range(len(parties)):
+                    d['STATS'][i]['Candidate'] = parties[i]['President']
                     d['STATS'][i]['Party'] = parties[i]['Party']
                 ret.append(d)
         
         return ret
 
-    def get_candiate_summary(self, table_index=12):
+    def get_candidate_summary(self, table_index=12):
         """
         Example output (using pandas `DataFrame`):
 
-        >>> candidates = pye.get_candiate_summary()
+        >>> candidates = pye.get_candidate_summary()
         >>> import pandas as pd
         >>> pd.DataFrame(candidates)
             EV  EV %        Party        President Vice President     Votes Votes %
