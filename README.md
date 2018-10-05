@@ -27,6 +27,7 @@ Presidential election data collector in Python 3.6
     candidates = pye.get_candidate_summary()
     pd.DataFrame(candidates)
 
+
 ## Example: Bulk extraction for multiple years
 
     import time
@@ -37,6 +38,7 @@ Presidential election data collector in Python 3.6
         data[y]['state'] = data[y]['pye'].get_state_summary()
         data[y]['candidate'] = data[y]['pye'].get_candidate_summary()
         time.sleep(0.1)
+
 
 #### Note: Current status on the working years:
 

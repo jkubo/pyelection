@@ -82,6 +82,7 @@ class PyElection(object):
     def get_state_summary(self, table_index=11):
         """
         Example truncated output (json library):
+        
         >>> state = pye.get_state_summary()
         >>> import json
         >>> json.dumps(state, indent=4, sort_keys=True)
@@ -142,7 +143,6 @@ class PyElection(object):
                 "TOTAL VOTES": "255849"
             }
         ]
-
         """
         data = map(lambda x: x.find_all('td'), self.__tables[table_index].find_all('tr'))
         rows = [list(map(lambda x: x.text.strip(), c)) for c in data]
@@ -163,6 +163,8 @@ class PyElection(object):
                 break
             if rec:
                 scope.append(list(map(lambda c: reg.sub('', c), row)))
+            else:
+                party = list(filter(None, list(map(lambda x: tuple(x.splitlines()), row))))
         # relying on secondary method to obtain parties list as initial method is not always reliable
         parties = self.get_candidate_summary()
         ret = []
@@ -174,9 +176,10 @@ class PyElection(object):
             if init:
                 col = list(zip(head, s))
                 d = dict(col[:2])
-                dim = int(len(col[2:]) / len(parties))
-                d['STATS'] = list(map(dict, list(zip(*[iter(col[2:])]*dim))))
-                for i in range(len(parties)):
+                dim = int(len(col[2:]) / len(party))
+                index = dim * len(party)
+                d['STATS'] = list(map(dict, list(zip(*[iter(col[-index:])]*dim))))
+                for i in range(min(len(party), len(parties))):
                     d['STATS'][i]['Candidate'] = parties[i]['President']
                     d['STATS'][i]['Party'] = parties[i]['Party']
                 ret.append(d)
@@ -206,7 +209,6 @@ class PyElection(object):
         for row in rows:
             if row[0] == start:
                 rec = True
-                head = row
                 continue
             if row[0] == end:
                 list(map(lambda x: list(filter(None, x)), scope))

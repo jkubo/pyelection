@@ -46,7 +46,7 @@ setup(
     ],
     packages=find_packages(),
     include_package_data=True,
-    version='0.0.2',
+    version='0.0.3',
     description='Obtain historical US presidential election data',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -57,5 +57,5 @@ setup(
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python'
-     ]
+    ]
 )
